@@ -5,7 +5,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
-import pickle
+from joblib import dump, load
 
 # Đọc dữ liệu từ tệp CSV
 data = pd.read_csv('healthcare_dataset.csv')
@@ -38,21 +38,20 @@ X = imputer.fit_transform(X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Huấn luyện mô hình hồi quy logistic
-model = LogisticRegression(max_iter=500)
+model = LogisticRegression()
 model.fit(X_train, y_train)
 
 # Dự đoán trên tập kiểm tra
 y_pred = model.predict(X_test)
 
-# Lưu mô hình đã huấn luyện và các bộ mã hóa
-with open('medication_model.pkl', 'wb') as model_file:
-    pickle.dump(model, model_file)
+# Lưu mô hình đã huấn luyện
+dump(model, 'medication_model.joblib')
 
-with open('label_encoders.pkl', 'wb') as le_file:
-    pickle.dump({
-        'medical_condition': le_medical_condition,
-        'test_results': le_test_results,
-        'admission_type': le_admission_type,
-        'medication': le_medication,
-        'gender': le_gender,
-    }, le_file)
+# Lưu các bộ mã hóa
+dump({
+    'medical_condition': le_medical_condition,
+    'test_results': le_test_results,
+    'admission_type': le_admission_type,
+    'medication': le_medication,
+    'gender': le_gender,
+}, 'label_encoders.joblib')

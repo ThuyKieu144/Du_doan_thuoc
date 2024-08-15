@@ -1,15 +1,12 @@
 from flask import Flask, request, render_template
-import pickle
+from joblib import load
 import numpy as np
 
 app = Flask(__name__)
 
 # Tải mô hình đã huấn luyện và các bộ mã hóa
-with open('medication_model.pkl', 'rb') as model_file:
-    model = pickle.load(model_file)
-
-with open('label_encoders.pkl', 'rb') as le_file:
-    le = pickle.load(le_file)
+model = load('medication_model.joblib')
+le = load('label_encoders.joblib')
 
 @app.route('/')
 def home():
