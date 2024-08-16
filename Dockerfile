@@ -1,17 +1,20 @@
-# Use the official Python image from the Docker Hub
+# Sử dụng image Python chính thức từ Docker Hub
 FROM python:3.8-slim
 
-# Set the working directory
+# Đặt thư mục làm việc
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
+# Sao chép nội dung thư mục hiện tại vào container
 COPY . /app
 
-# Install the necessary packages
+# Cài đặt các gói cần thiết
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 5000 available to the world outside this container
+# Chạy file python.py để huấn luyện mô hình (chạy trong build process)
+RUN python python.py
+
+# Mở port 5000 để truy cập từ ngoài container
 EXPOSE 5000
 
-# Run app.py when the container launches
+# Khởi động ứng dụng Flask khi container chạy
 CMD ["python", "app.py"]
