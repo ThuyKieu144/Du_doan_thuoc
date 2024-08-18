@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Prediction</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #928f92;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #e9cf80;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        div {
+            margin-bottom: 10px;
+        }
+        label {
+            margin-bottom: 5px;
+            display: block;
+            color: #444;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            color: #333;
+        }
+        button {
+            background-color: #5dcc63;
+            color: black;
+            padding: 12px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #87e9c3;
+        }
+        h3 {
+            color: #28a745;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>    
+    <div class="container">
+        <h2>DỰ ĐOÁN LOẠI THUỐC</h2>
+        <form action="/predict" method="post">
+            <div>
+                <label>Tuổi:</label>
+                <input type="number" name="age" required>
+            </div>
+            <div>
+                <label>Giới tính:</label>
+                <select name="gender" required>
+                    <option value="">Chọn giới tính</option>
+                    <option value="0">Nữ</option>
+                    <option value="1">Nam</option>
+                </select>
+            </div>
+            <div>
+                <label>Tình trạng bệnh:</label>
+                <select name="medical_condition" required>
+                    <option value="">Chọn tình trạng bệnh</option>
+                    <option value="Cancer">Ung thư</option>
+                    <option value="Obesity">Béo phì</option>
+                    <option value="Diabetes">Tiểu đường</option>
+                    <option value="Asthma">Hen suyễn</option>
+                </select>
+            </div>
+            <div>
+                <label>Kết quả xét nghiệm:</label>
+                <select name="test_results" required>
+                    <option value="">Chọn kết quả xét nghiệm</option>
+                    <option value="Normal">Bình thường</option>
+                    <option value="Inconclusive">Chưa rõ</option>
+                    <option value="Abnormal">Bất thường</option>
+                </select>
+            </div>
+            <div>
+                <label>Loại nhập viện:</label>
+                <select name="admission_type" required>
+                    <option value="">Chọn loại nhập viện</option>
+                    <option value="Urgent">Khẩn cấp</option>
+                    <option value="Emergency">Cấp cứu</option>
+                    <option value="Elective">Lựa chọn</option>
+                </select>
+            </div>
+
+            <button type="submit">Dự Đoán</button>
+        </form>
+        {% if prediction_text %}
+            <h3>{{ prediction_text }}</h3>
+        {% endif %}
+    </div>
+</body>
+</html>
